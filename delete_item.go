@@ -73,6 +73,10 @@ func (e *MockDynamoDB) DeleteItemWithContext(ctx aws.Context, input *dynamodb.De
 		// delete first element of expectation
 		e.dynaMock.DeleteItemExpect = append(e.dynaMock.DeleteItemExpect[:0], e.dynaMock.DeleteItemExpect[1:]...)
 
+		if x.err != nil {
+			return nil, x.err
+		}
+
 		return x.output, nil
 	}
 

@@ -95,6 +95,10 @@ func (e *MockDynamoDB) QueryPagesWithContext(ctx aws.Context, input *dynamodb.Qu
 		// delete first element of expectation
 		e.dynaMock.QueryExpect = append(e.dynaMock.QueryExpect[:0], e.dynaMock.QueryExpect[1:]...)
 
+		if x.err != nil {
+			return x.err
+		}
+
 		fn(x.output, true)
 		return nil
 	}

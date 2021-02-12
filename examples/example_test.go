@@ -1,6 +1,7 @@
 package examples
 
 import (
+	"errors"
 	dynamock "github.com/gusaul/go-dynamock"
 	"testing"
 
@@ -36,6 +37,23 @@ func TestGetName(t *testing.T) {
 
 	actualResult, _ := GetName("1")
 	if actualResult != expectedResult {
+		t.Errorf("Test Fail")
+	}
+}
+
+func TestGetNameError(t *testing.T) {
+	expectKey := map[string]*dynamodb.AttributeValue{
+		"id": {
+			N: aws.String("1"),
+		},
+	}
+
+	expectedError := errors.New("test error")
+	mock.ExpectGetItem().ToTable("employee").WithKeys(expectKey).WillReturnError(expectedError)
+
+	_, actualError := GetName("1")
+
+	if actualError != expectedError {
 		t.Errorf("Test Fail")
 	}
 }

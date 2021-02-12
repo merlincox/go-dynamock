@@ -91,6 +91,10 @@ func (e *MockDynamoDB) UpdateItemWithContext(ctx aws.Context, input *dynamodb.Up
 		// delete first element of expectation
 		e.dynaMock.UpdateItemExpect = append(e.dynaMock.UpdateItemExpect[:0], e.dynaMock.UpdateItemExpect[1:]...)
 
+		if x.err != nil {
+			return nil, x.err
+		}
+
 		return x.output, nil
 	}
 

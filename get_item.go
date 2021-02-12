@@ -47,6 +47,10 @@ func (e *MockDynamoDB) GetItem(input *dynamodb.GetItemInput) (*dynamodb.GetItemO
 		// delete first element of expectation
 		e.dynaMock.GetItemExpect = append(e.dynaMock.GetItemExpect[:0], e.dynaMock.GetItemExpect[1:]...)
 
+		if x.err != nil {
+			return nil, x.err
+		}
+
 		return x.output, nil
 	}
 
